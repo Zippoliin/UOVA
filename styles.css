@@ -957,3 +957,47 @@ section{padding: 90px 0; border-top:1px solid rgba(22,48,36,.10);}
   mix-blend-mode: screen;
   opacity:.70;
 }
+
+
+/* ===== v6: photo-like raster assets (egg + pan) ===== */
+.egg-whole, .shell{
+  background-image: url("assets/egg_whole.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* kill old vector shading/filters so the raster reads as photo */
+  filter: none !important;
+  box-shadow: var(--shadow1);
+}
+.egg-whole::before, .egg-whole::after,
+.shell::before, .shell::after{ display:none !important; }
+.egg-whole .pores, .egg-whole .specular,
+.shell .pores, .shell .specular{ display:none !important; }
+
+/* Pan as raster images */
+.pan--img{
+  width: min(560px, 92%);
+  height: min(560px, 92%);
+  left: 50%;
+  bottom: -44%;
+  transform: translateX(-50%) translateY(0);
+  opacity: 0;
+  filter: drop-shadow(0 28px 80px rgba(18,35,28,.18));
+}
+.pan--img .pan-img{
+  position:absolute;
+  inset:0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.pan--img .pan-empty{ background-image: url("assets/pan_empty.png"); opacity: 1; }
+.pan--img .pan-fried{ background-image: url("assets/pan_fried.png"); opacity: 0; }
+
+/* Make sure old pan internals don't affect layout */
+.pan__rim, .pan__inside, .pan__handle, .pan__egg{ display:none !important; }
+
+/* Slightly stronger inside lighting so it matches photographic feel */
+.inside{
+  filter: drop-shadow(0 22px 55px rgba(18,35,28,.14));
+}

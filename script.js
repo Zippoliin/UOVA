@@ -117,7 +117,7 @@ const shellBottom = document.getElementById('shellBottom');
 const inside = document.getElementById('inside');
 
 const pan = document.getElementById('pan');
-const panEgg = document.getElementById('panEgg');
+const panFried = document.getElementById('panFried');
 
 const map = document.getElementById('map');
 const stickyCta = document.getElementById('stickyCta');
@@ -258,8 +258,8 @@ function update() {
   if (t < 0.62) dropPlayed = false;
 
   const panEggOn = smoothstep(0.76, 0.92, p3);
-  panEgg.style.opacity = String(panEggOn);
-  panEgg.style.transform = `scale(${lerp(0.985, 1.0, panEggOn)})`;
+  panFried.style.opacity = String(panEggOn);
+  panFried.style.transform = `scale(${lerp(0.985, 1.0, panEggOn)})`;
 
   // Reveal arrows near end
   const reveal = smoothstep(0.64, 0.92, p3);
