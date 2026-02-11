@@ -64,6 +64,11 @@
     <a class="cta-mini" href="#ordina" data-track="top_order">Ordina</a>
   </div>
 
+  <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false" aria-label="Attiva audio">
+    <span class="sound-ic" aria-hidden="true">🔊</span>
+    <span class="sound-tx">Audio</span>
+  </button>
+
   <!-- Sticky conversion CTA -->
   <div class="sticky-cta" id="stickyCta" aria-hidden="true">
     <div class="sticky-cta__inner">
@@ -83,75 +88,82 @@
       </div>
 
       <div class="egg-wrap" id="eggWrap" aria-label="Uovo iperrealistico animato">
-        <!-- Whole egg (step 1: cracks + chips + shake) -->
+        <!-- Whole egg (step 1: crack + chips + shake) -->
         <div class="egg-whole" id="eggWhole" aria-hidden="true">
           <div class="pores" aria-hidden="true"></div>
           <div class="specular" aria-hidden="true"></div>
 
-          <!-- crack overlay (kept SVG but roughened + layered) -->
+          <!-- Horizontal crack overlay (draws L->R) -->
           <svg class="crack" id="crackSvg" viewBox="0 0 100 140" aria-hidden="true">
             <g filter="url(#crackRoughen)">
-              <!-- highlight -->
+              <!-- main jagged line -->
               <path class="crack-path crack-hi"
-                d="M50 6
-                   C46 14, 55 20, 48 28
-                   C42 36, 56 42, 47 50
-                   C39 58, 58 66, 45 74
-                   C33 83, 60 92, 44 102
-                   C32 112, 58 120, 47 132" />
-              <!-- core -->
+                d="M8 72
+                   C14 66, 20 78, 27 72
+                   C34 66, 41 79, 48 72
+                   C55 65, 62 79, 69 72
+                   C76 65, 83 79, 92 72" />
               <path class="crack-path crack-core"
-                d="M50 6
-                   C46 14, 55 20, 48 28
-                   C42 36, 56 42, 47 50
-                   C39 58, 58 66, 45 74
-                   C33 83, 60 92, 44 102
-                   C32 112, 58 120, 47 132" />
+                d="M8 72
+                   C14 66, 20 78, 27 72
+                   C34 66, 41 79, 48 72
+                   C55 65, 62 79, 69 72
+                   C76 65, 83 79, 92 72" />
               <!-- micro branches -->
               <path class="crack-path crack-branch"
-                d="M52 22 C62 28, 58 34, 64 40
-                   C70 46, 61 54, 68 60
-                   C74 66, 62 74, 71 80" />
+                d="M28 72 C22 60, 30 58, 26 48" />
               <path class="crack-path crack-branch"
-                d="M46 40 C36 46, 42 52, 35 58
-                   C28 64, 38 70, 30 76" />
+                d="M55 72 C52 86, 60 90, 56 102" />
+              <path class="crack-path crack-branch"
+                d="M74 72 C80 60, 74 56, 82 46" />
             </g>
           </svg>
 
           <!-- chips -->
           <div class="fragments" id="fragments" aria-hidden="true">
-            <span class="frag" style="--fx:-30;--fy:-12;--fr:-22;--fs:1.00"></span>
-            <span class="frag" style="--fx:28;--fy:-16;--fr:24;--fs:.95"></span>
-            <span class="frag" style="--fx:-34;--fy:12;--fr:12;--fs:.86"></span>
-            <span class="frag" style="--fx:32;--fy:18;--fr:-14;--fs:.90"></span>
-            <span class="frag" style="--fx:-24;--fy:30;--fr:28;--fs:.80"></span>
-            <span class="frag" style="--fx:28;--fy:36;--fr:-26;--fs:.78"></span>
-            <span class="frag" style="--fx:-16;--fy:54;--fr:20;--fs:.72"></span>
-            <span class="frag" style="--fx:20;--fy:58;--fr:-18;--fs:.70"></span>
+            <span class="frag" style="--fx:-34;--fy:-10;--fr:-22;--fs:1.00"></span>
+            <span class="frag" style="--fx:32;--fy:-12;--fr:24;--fs:.95"></span>
+            <span class="frag" style="--fx:-38;--fy:18;--fr:12;--fs:.86"></span>
+            <span class="frag" style="--fx:36;--fy:20;--fr:-14;--fs:.90"></span>
+            <span class="frag" style="--fx:-22;--fy:34;--fr:28;--fs:.80"></span>
+            <span class="frag" style="--fx:26;--fy:40;--fr:-26;--fs:.78"></span>
           </div>
         </div>
 
-        <!-- Shell halves -->
-        <div class="shell left" id="shellLeft" aria-hidden="true">
+        <!-- Shell halves (horizontal split) -->
+        <div class="shell top" id="shellTop" aria-hidden="true">
           <div class="pores" aria-hidden="true"></div>
           <div class="specular" aria-hidden="true"></div>
           <div class="shell-edge" aria-hidden="true"></div>
           <div class="shell-depth" aria-hidden="true"></div>
         </div>
 
-        <div class="shell right" id="shellRight" aria-hidden="true">
+        <div class="shell bottom" id="shellBottom" aria-hidden="true">
           <div class="pores" aria-hidden="true"></div>
           <div class="specular" aria-hidden="true"></div>
           <div class="shell-edge" aria-hidden="true"></div>
           <div class="shell-depth" aria-hidden="true"></div>
         </div>
 
-        <!-- Inside -->
+        <!-- Inside (still visible just before drop) -->
         <div class="inside" id="inside" aria-hidden="true">
           <div class="white"></div>
           <div class="yolk"></div>
           <div class="shine" aria-hidden="true"></div>
         </div>
+
+        <!-- Pan enters from bottom on step 3 -->
+        <div class="pan" id="pan" aria-hidden="true">
+          <div class="pan__rim" aria-hidden="true"></div>
+          <div class="pan__inside" aria-hidden="true"></div>
+          <div class="pan__egg" id="panEgg" aria-hidden="true">
+            <div class="pan-white"></div>
+            <div class="pan-yolk"></div>
+            <div class="pan-shine" aria-hidden="true"></div>
+          </div>
+          <div class="pan__handle" aria-hidden="true"></div>
+        </div>
+</div>
 
         <!-- Arrows -->
         <div class="map" id="map" aria-hidden="true">
@@ -164,19 +176,19 @@
 
             <path d="M500 280 C430 210, 330 185, 230 165"
                   stroke="rgba(22,48,36,.50)" stroke-width="2.4" fill="none" marker-end="url(#arrowHead)"/>
-            <text x="230" y="150" class="arrow-label">LA NOSTRA STORIA</text>
+            <text class="arrow-label arrow-link" data-target="#storia" role="link" tabindex="0">LA NOSTRA STORIA</text>
 
             <path d="M500 280 C580 210, 680 185, 780 165"
                   stroke="rgba(22,48,36,.50)" stroke-width="2.4" fill="none" marker-end="url(#arrowHead)"/>
-            <text x="690" y="150" class="arrow-label">LE NOSTRE GALLINE</text>
+            <text class="arrow-label arrow-link" data-target="#galline" role="link" tabindex="0">LE NOSTRE GALLINE</text>
 
             <path d="M500 300 C420 360, 320 395, 210 420"
                   stroke="rgba(22,48,36,.50)" stroke-width="2.4" fill="none" marker-end="url(#arrowHead)"/>
-            <text x="190" y="445" class="arrow-label">LE NOSTRE UOVA</text>
+            <text class="arrow-label arrow-link" data-target="#uova" role="link" tabindex="0">LE NOSTRE UOVA</text>
 
             <path d="M500 300 C600 360, 710 395, 835 420"
                   stroke="rgba(22,48,36,.50)" stroke-width="2.4" fill="none" marker-end="url(#arrowHead)"/>
-            <text x="790" y="445" class="arrow-label">ORDINA ORA</text>
+            <text class="arrow-label arrow-link" data-target="#ordina" role="link" tabindex="0">ORDINA ORA</text>
           </svg>
         </div>
       </div>
