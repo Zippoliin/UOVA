@@ -17,7 +17,6 @@ const smoothstep = (a, b, x) => {
 
 // ====== Elements ======
 const hero = document.querySelector('.hero');
-const eggWrap = document.getElementById('eggWrap');
 
 const eggWhole = document.getElementById('eggWhole');
 const crackSvg = document.getElementById('crackSvg');
@@ -35,16 +34,13 @@ const stickyCta = document.getElementById('stickyCta');
 const orderSection = document.getElementById('ordina');
 
 // ====== Scroll: 3 steps ======
-// Step 1 (0..~0.33): frantuma (cracks + chips + shake)
-// Step 2 (~0.33..~0.66): apre poco
-// Step 3 (~0.66..1): si separa + reveal interno
 let lastStickyState = false;
 
 function update() {
   const rect = hero.getBoundingClientRect();
   const vh = window.innerHeight;
 
-  // progress 0..1 over first ~105vh of scroll inside hero (more room for 3 phases)
+  // progress 0..1 over first ~105vh of scroll inside hero
   const end = vh * 1.05;
   const t = clamp((0 - rect.top) / end, 0, 1);
 
@@ -52,16 +48,16 @@ function update() {
   const p2 = clamp((t - 0.33) / 0.33, 0, 1);
   const p3 = clamp((t - 0.66) / 0.34, 0, 1);
 
-  // ----- STEP 1: realistic cracking + fragments -----
+  // ----- STEP 1: cracks + chips + shake -----
   const crackOn = smoothstep(0.05, 0.95, p1);
-  crackSvg.style.opacity = String(clamp(crackOn * 1.1, 0, 1));
+  crackSvg.style.opacity = String(clamp(crackOn * 1.05, 0, 1));
 
   // Animate crack drawing
   const dash = 1000;
   const dashOffset = (1 - crackOn) * dash;
   crackPaths.forEach((p) => (p.style.strokeDashoffset = String(dashOffset)));
 
-  // Chips appear mid-step and fly a bit
+  // Chips
   const chipOn = smoothstep(0.22, 0.95, p1);
   fragments.style.opacity = String(clamp(chipOn * 1.05, 0, 1));
   fragments.querySelectorAll('.frag').forEach((frag) => {
@@ -74,7 +70,7 @@ function update() {
       `translate(calc(-50% + ${fx * k}px), calc(-50% + ${fy * k}px)) rotate(${fr * k}deg) scale(${lerp(0.7, fs, k)})`;
   });
 
-  // Shake only during step 1 (dies out near the end)
+  // Shake only during step 1
   const shakeAmp = (1 - p1) * 1.8;
   const shakeX = Math.sin(p1 * 18) * shakeAmp;
   const shakeY = Math.cos(p1 * 15) * shakeAmp;
@@ -130,7 +126,7 @@ function update() {
   cards.style.transform = `translateX(-50%) translateY(${lerp(10, 0, reveal)}px) scale(${lerp(0.985, 1, reveal)})`;
   cards.style.pointerEvents = reveal > 0.15 ? 'auto' : 'none';
 
-  // Sticky CTA: show after hero; hide near order section
+  // Sticky CTA
   const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
   const heroBottom = hero.offsetTop + hero.offsetHeight;
   const orderTop = orderSection.offsetTop;
