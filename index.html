@@ -32,48 +32,94 @@
   <header class="hero" id="top">
     <div class="stage" aria-label="Hero con animazione uovo">
       <div class="headline">
-        <h1>Uova vere. Semplici. Pulite.</h1>
-        <p>Scrolla: l’uovo si apre e ti porta dritto a ciò che conta.</p>
+        <h1>Uova vere. Semplici. Allegre.</h1>
+        <p>Tre scroll: si frantuma → si apre → rivela il cuore.</p>
       </div>
 
-      <div class="egg-wrap" id="eggWrap">
-        <div class="egg" id="wholeEgg" aria-hidden="true"></div>
+      <div class="egg-wrap" id="eggWrap" aria-label="Uovo realistico animato">
+        <!-- Whole egg (fase 1: frantuma) -->
+        <div class="egg-whole" id="eggWhole" aria-hidden="true">
+          <div class="egg-texture" aria-hidden="true"></div>
 
-        <div class="shell left" id="shellLeft" aria-hidden="true"></div>
-        <div class="shell right" id="shellRight" aria-hidden="true"></div>
+          <!-- crack overlay -->
+          <svg class="crack" id="crackSvg" viewBox="0 0 100 140" aria-hidden="true">
+            <!-- main crack -->
+            <path class="crack-path"
+              d="M50 6
+                 C46 14, 55 20, 48 28
+                 C42 36, 56 42, 47 50
+                 C39 58, 58 66, 45 74
+                 C33 83, 60 92, 44 102
+                 C32 112, 58 120, 47 132"
+            />
+            <!-- secondary micro crack -->
+            <path class="crack-path crack-path--2"
+              d="M55 22
+                 C62 28, 58 34, 64 40
+                 C70 46, 61 54, 68 60
+                 C74 66, 62 74, 71 80"
+            />
+          </svg>
 
+          <!-- fragments (chips) -->
+          <div class="fragments" id="fragments" aria-hidden="true">
+            <span class="frag" style="--fx:-28;--fy:-10;--fr:-18;--fs:1.00"></span>
+            <span class="frag" style="--fx:24;--fy:-14;--fr:22;--fs:.95"></span>
+            <span class="frag" style="--fx:-32;--fy:10;--fr:10;--fs:.85"></span>
+            <span class="frag" style="--fx:30;--fy:16;--fr:-12;--fs:.90"></span>
+            <span class="frag" style="--fx:-22;--fy:28;--fr:26;--fs:.80"></span>
+            <span class="frag" style="--fx:26;--fy:34;--fr:-24;--fs:.78"></span>
+            <span class="frag" style="--fx:-14;--fy:52;--fr:18;--fs:.72"></span>
+            <span class="frag" style="--fx:18;--fy:56;--fr:-16;--fs:.70"></span>
+          </div>
+        </div>
+
+        <!-- Shell halves (fase 2-3: si apre e si separa) -->
+        <div class="shell left" id="shellLeft" aria-hidden="true">
+          <div class="egg-texture" aria-hidden="true"></div>
+          <div class="shell-edge" aria-hidden="true"></div>
+        </div>
+        <div class="shell right" id="shellRight" aria-hidden="true">
+          <div class="egg-texture" aria-hidden="true"></div>
+          <div class="shell-edge" aria-hidden="true"></div>
+        </div>
+
+        <!-- Inside (fase 3: reveal) -->
         <div class="inside" id="inside" aria-hidden="true">
           <div class="white"></div>
           <div class="yolk"></div>
+          <div class="shine" aria-hidden="true"></div>
         </div>
 
+        <!-- Arrows -->
         <div class="map" id="map" aria-hidden="true">
           <svg class="arrows" viewBox="0 0 1000 560" role="img" aria-label="Frecce verso le sezioni">
             <defs>
               <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 z" fill="rgba(243,246,251,.75)"></path>
+                <path d="M0,0 L10,5 L0,10 z" fill="rgba(22,48,36,.65)"></path>
               </marker>
             </defs>
 
             <path d="M500 280 C430 210, 330 185, 230 165"
-                  stroke="rgba(243,246,251,.62)" stroke-width="2.2" fill="none" marker-end="url(#arrowHead)"/>
+                  stroke="rgba(22,48,36,.50)" stroke-width="2.4" fill="none" marker-end="url(#arrowHead)"/>
             <text x="230" y="150" class="arrow-label">LA NOSTRA STORIA</text>
 
             <path d="M500 280 C580 210, 680 185, 780 165"
-                  stroke="rgba(243,246,251,.62)" stroke-width="2.2" fill="none" marker-end="url(#arrowHead)"/>
+                  stroke="rgba(22,48,36,.50)" stroke-width="2.4" fill="none" marker-end="url(#arrowHead)"/>
             <text x="690" y="150" class="arrow-label">LE NOSTRE GALLINE</text>
 
             <path d="M500 300 C420 360, 320 395, 210 420"
-                  stroke="rgba(243,246,251,.62)" stroke-width="2.2" fill="none" marker-end="url(#arrowHead)"/>
+                  stroke="rgba(22,48,36,.50)" stroke-width="2.4" fill="none" marker-end="url(#arrowHead)"/>
             <text x="190" y="445" class="arrow-label">LE NOSTRE UOVA</text>
 
             <path d="M500 300 C600 360, 710 395, 835 420"
-                  stroke="rgba(243,246,251,.62)" stroke-width="2.2" fill="none" marker-end="url(#arrowHead)"/>
+                  stroke="rgba(22,48,36,.50)" stroke-width="2.4" fill="none" marker-end="url(#arrowHead)"/>
             <text x="790" y="445" class="arrow-label">ORDINA ORA</text>
           </svg>
         </div>
       </div>
 
+      <!-- Cards -->
       <div class="cards" id="cards" aria-label="Scelte rapide">
         <div class="card" data-target="#storia" role="button" tabindex="0" aria-label="Vai a La nostra storia" data-track="nav_story">
           <div class="thumb thumb-story" aria-hidden="true"></div>
@@ -117,17 +163,16 @@
 
   <main>
 
-    <!-- Trust / value bullets -->
     <section class="trust" aria-label="Perché fidarti">
       <div class="section-head">
         <h2>Perché fidarti</h2>
-        <p>Tre cose, senza fronzoli. Se ti convincono, ordini. Fine.</p>
+        <p>Natura, cura, freschezza. Fine.</p>
       </div>
 
       <div class="trust-grid">
         <div class="trust-card">
           <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.2 9.4-8 10-4.8-.6-8-5-8-10V6l8-4z" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.2 9.4-8 10-4.8-.6-8-5-8-10V6l8-4z" stroke="currentColor" stroke-width="1.8"/></svg>
           </div>
           <h3>Trasparenza</h3>
           <p>Ti diciamo cosa mangiano e come vivono. Niente “segreti”.</p>
@@ -135,7 +180,7 @@
 
         <div class="trust-card">
           <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 6l12 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 4v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
           <h3>Freschezza</h3>
           <p>Raccolta e consegna ravvicinate. Meno tempo, più gusto.</p>
@@ -143,7 +188,7 @@
 
         <div class="trust-card">
           <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-4.4 7-11a7 7 0 10-14 0c0 6.6 7 11 7 11z" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 12.1l1.5 1.6 3.1-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-4.4 7-11a7 7 0 10-14 0c0 6.6 7 11 7 11z" stroke="currentColor" stroke-width="1.8"/><path d="M9.8 12.1l1.5 1.6 3.1-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <h3>Controllo</h3>
           <p>Standard chiari: pulizia, cura, routine. Semplice ma serio.</p>
@@ -162,7 +207,7 @@
           <p>Un testo umano: poche righe, zero marketing vuoto. Qualcosa che uno possa raccontare a un amico.</p>
           <ul class="bullets">
             <li>Territorio e metodo</li>
-            <li>Scelta delle confezioni 3 / 7 / 11</li>
+            <li>Confezioni 3 / 7 / 11</li>
             <li>Obiettivo: qualità costante</li>
           </ul>
         </div>
@@ -217,7 +262,6 @@
       </div>
     </section>
 
-    <!-- Iconic packaging section -->
     <section id="confezioni">
       <div class="section-head">
         <h2>Confezioni 3 / 7 / 11</h2>
@@ -248,7 +292,6 @@
       </div>
     </section>
 
-    <!-- Social proof -->
     <section id="prove">
       <div class="section-head">
         <h2>Prove sociali</h2>
@@ -271,7 +314,6 @@
       </div>
     </section>
 
-    <!-- FAQ -->
     <section id="faq">
       <div class="section-head">
         <h2>FAQ</h2>
@@ -305,7 +347,6 @@
       </div>
     </section>
 
-    <!-- Order -->
     <section id="ordina">
       <div class="section-head">
         <h2>Ordina ora</h2>

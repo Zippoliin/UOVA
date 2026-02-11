@@ -1,84 +1,140 @@
-// ====== Small tracker (no dependencies) ======
+// ====== Tiny tracker (no dependencies) ======
 function track(eventName, payload = {}) {
   try {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: eventName, ...payload });
   } catch (_) {}
-  // Also visible while developing
   console.log('[track]', eventName, payload);
 }
 
-// ====== Scroll-driven egg opening ======
+// ====== Helpers ======
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const smoothstep = (a, b, x) => {
+  const t = clamp((x - a) / (b - a), 0, 1);
+  return t * t * (3 - 2 * t);
+};
+
+// ====== Elements ======
 const hero = document.querySelector('.hero');
-const wholeEgg = document.getElementById('wholeEgg');
+const eggWrap = document.getElementById('eggWrap');
+
+const eggWhole = document.getElementById('eggWhole');
+const crackSvg = document.getElementById('crackSvg');
+const crackPaths = crackSvg.querySelectorAll('.crack-path');
+const fragments = document.getElementById('fragments');
+
 const shellLeft = document.getElementById('shellLeft');
 const shellRight = document.getElementById('shellRight');
 const inside = document.getElementById('inside');
+
 const map = document.getElementById('map');
 const cards = document.getElementById('cards');
 
 const stickyCta = document.getElementById('stickyCta');
 const orderSection = document.getElementById('ordina');
 
-const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const lerp = (a, b, t) => a + (b - a) * t;
-
+// ====== Scroll: 3 steps ======
+// Step 1 (0..~0.33): frantuma (cracks + chips + shake)
+// Step 2 (~0.33..~0.66): apre poco
+// Step 3 (~0.66..1): si separa + reveal interno
 let lastStickyState = false;
 
 function update() {
   const rect = hero.getBoundingClientRect();
   const vh = window.innerHeight;
 
-  // progress 0..1 during ~95vh of scroll inside hero
-  const end = vh * 0.95;
-  const traveled = clamp((0 - rect.top) / end, 0, 1);
-  const t = traveled;
+  // progress 0..1 over first ~105vh of scroll inside hero (more room for 3 phases)
+  const end = vh * 1.05;
+  const t = clamp((0 - rect.top) / end, 0, 1);
 
-  // Whole egg fade out
-  const wholeOpacity = 1 - clamp((t - 0.14) / 0.18, 0, 1);
-  wholeEgg.style.opacity = wholeOpacity.toFixed(3);
+  const p1 = clamp(t / 0.33, 0, 1);
+  const p2 = clamp((t - 0.33) / 0.33, 0, 1);
+  const p3 = clamp((t - 0.66) / 0.34, 0, 1);
 
-  // Shells visible with fade
-  const shellsOn =
-    clamp((t - 0.14) / 0.12, 0, 1) * (1 - clamp((t - 0.74) / 0.16, 0, 1));
+  // ----- STEP 1: realistic cracking + fragments -----
+  const crackOn = smoothstep(0.05, 0.95, p1);
+  crackSvg.style.opacity = String(clamp(crackOn * 1.1, 0, 1));
 
-  // Opening
-  const open = clamp((t - 0.18) / 0.50, 0, 1);
+  // Animate crack drawing
+  const dash = 1000;
+  const dashOffset = (1 - crackOn) * dash;
+  crackPaths.forEach((p) => (p.style.strokeDashoffset = String(dashOffset)));
 
-  // Shell transforms
-  const x = lerp(0, 150, open);
-  const y = lerp(0, -35, open);
-  const rotL = lerp(0, -24, open);
-  const rotR = lerp(0, 24, open);
+  // Chips appear mid-step and fly a bit
+  const chipOn = smoothstep(0.22, 0.95, p1);
+  fragments.style.opacity = String(clamp(chipOn * 1.05, 0, 1));
+  fragments.querySelectorAll('.frag').forEach((frag) => {
+    const fx = parseFloat(frag.style.getPropertyValue('--fx') || '0');
+    const fy = parseFloat(frag.style.getPropertyValue('--fy') || '0');
+    const fr = parseFloat(frag.style.getPropertyValue('--fr') || '0');
+    const fs = parseFloat(frag.style.getPropertyValue('--fs') || '1');
+    const k = chipOn;
+    frag.style.transform =
+      `translate(calc(-50% + ${fx * k}px), calc(-50% + ${fy * k}px)) rotate(${fr * k}deg) scale(${lerp(0.7, fs, k)})`;
+  });
 
-  shellLeft.style.transform = `translateX(${-x}px) translateY(${y}px) rotate(${rotL}deg)`;
-  shellRight.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${rotR}deg)`;
+  // Shake only during step 1 (dies out near the end)
+  const shakeAmp = (1 - p1) * 1.8;
+  const shakeX = Math.sin(p1 * 18) * shakeAmp;
+  const shakeY = Math.cos(p1 * 15) * shakeAmp;
+  const shakeR = Math.sin(p1 * 22) * shakeAmp * 0.9;
+  eggWhole.style.setProperty('--shakeX', shakeX.toFixed(2));
+  eggWhole.style.setProperty('--shakeY', shakeY.toFixed(2));
+  eggWhole.style.setProperty('--shakeR', shakeR.toFixed(2));
 
-  // Inside appears
-  const insideOn = clamp((t - 0.22) / 0.20, 0, 1);
-  inside.style.opacity = insideOn.toFixed(3);
+  // Fade whole egg as we finish step 1
+  const wholeOpacity = 1 - smoothstep(0.70, 1.00, p1);
+  eggWhole.style.opacity = String(clamp(wholeOpacity, 0, 1));
+
+  // ----- STEP 2-3: shells appear and open -----
+  const shellsOpacity = smoothstep(0.55, 0.95, p1);
+  shellLeft.style.opacity = String(shellsOpacity);
+  shellRight.style.opacity = String(shellsOpacity);
+
+  // Step 2: open a little
+  const openSmall = p2;
+  const x2 = lerp(0, 22, openSmall);
+  const y2 = lerp(0, -7, openSmall);
+  const r2 = lerp(0, 10, openSmall);
+
+  // Step 3: separate wide
+  const sep = p3;
+  const x3 = lerp(0, 210, sep);
+  const y3 = lerp(0, -42, sep);
+  const r3 = lerp(0, 18, sep);
+
+  const leftX = -(x2 + x3);
+  const rightX = (x2 + x3);
+  const liftY = (y2 + y3);
+
+  shellLeft.style.transform  = `translateX(${leftX}px) translateY(${liftY}px) rotate(${-r2 - r3}deg)`;
+  shellRight.style.transform = `translateX(${rightX}px) translateY(${liftY}px) rotate(${r2 + r3}deg)`;
+
+  // Hide cracks/chips once step 2 starts (clean reveal)
+  const fadeAfterCrack = 1 - smoothstep(0.00, 0.35, p2);
+  crackSvg.style.opacity = String(clamp(crackOn * fadeAfterCrack, 0, 1));
+  fragments.style.opacity = String(clamp(chipOn * fadeAfterCrack, 0, 1));
+
+  // ----- STEP 3: reveal inside -----
+  const insideOn = smoothstep(0.10, 0.42, p3);
+  inside.style.opacity = String(insideOn);
   inside.style.transform = `translateY(${lerp(10, 0, insideOn)}px) scale(${lerp(0.98, 1, insideOn)})`;
 
-  // Shells fade out after open completed
-  const shellsFade = 1 - clamp((t - 0.72) / 0.12, 0, 1);
-  const shellOpacity = (shellsOn * shellsFade).toFixed(3);
-  shellLeft.style.opacity = shellOpacity;
-  shellRight.style.opacity = shellOpacity;
-
-  // Reveal arrows + nav cards
-  const reveal = clamp((t - 0.70) / 0.18, 0, 1);
-  map.style.opacity = reveal.toFixed(3);
+  // Reveal map + cards near the end of step 3
+  const reveal = smoothstep(0.52, 0.90, p3);
+  map.style.opacity = String(reveal);
   map.style.transform = `translateY(${lerp(8, 0, reveal)}px)`;
 
-  cards.style.opacity = reveal.toFixed(3);
-  cards.style.transform = `translateX(-50%) translateY(${lerp(10, 0, reveal)}px) scale(${lerp(0.98, 1, reveal)})`;
+  cards.style.opacity = String(reveal);
+  cards.style.transform = `translateX(-50%) translateY(${lerp(10, 0, reveal)}px) scale(${lerp(0.985, 1, reveal)})`;
   cards.style.pointerEvents = reveal > 0.15 ? 'auto' : 'none';
 
-  // Sticky CTA logic (show after leaving hero; hide near order section)
+  // Sticky CTA: show after hero; hide near order section
   const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
   const heroBottom = hero.offsetTop + hero.offsetHeight;
   const orderTop = orderSection.offsetTop;
-  const nearOrder = scrollY + vh > orderTop + 120; // hide as you approach the order section
+  const nearOrder = scrollY + vh > orderTop + 120;
 
   const shouldShowSticky = scrollY > (heroBottom - vh * 0.65) && !nearOrder;
   if (shouldShowSticky !== lastStickyState) {
@@ -147,7 +203,6 @@ packSelect.addEventListener('change', (e) => {
   setPack(e.target.value, 'select');
 });
 
-// Default active pack (matches HTML)
 setPack(packInput.value, 'init');
 
 // ====== FAQ accordion ======
@@ -161,7 +216,7 @@ document.querySelectorAll('.faq__q').forEach((btn) => {
   });
 });
 
-// ====== Modal helpers ======
+// ====== Modal ======
 const modal = document.getElementById('modal');
 const modalText = document.getElementById('modalText');
 const mailtoLink = document.getElementById('mailtoLink');
@@ -183,7 +238,7 @@ modal.addEventListener('click', (e) => {
   if (close) closeModal();
 });
 
-// ====== Preorder form submit (with elegant confirmation) ======
+// ====== Preorder form submit ======
 const form = document.getElementById('preorderForm');
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -197,7 +252,6 @@ form.addEventListener('submit', (e) => {
 
   const payload = { name, contact, qty, pack, note, ts: Date.now() };
 
-  // Save locally (handy while prototyping)
   try {
     const key = 'uova_preorders';
     const arr = JSON.parse(localStorage.getItem(key) || '[]');
@@ -220,7 +274,6 @@ form.addEventListener('submit', (e) => {
     mailtoHref
   );
 
-  // Reset soft: keep pack selection
   form.reset();
   form.querySelector('[name="qty"]').value = '1';
   setPack(pack, 'submit_keep');
