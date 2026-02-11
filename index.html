@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Uova — Landing</title>
+  <meta name="description" content="Uova fresche, pulite, vere. Scopri la storia, le galline e ordina in un click." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Top micro-nav -->
+  <div class="topbar">
+    <a class="brand" href="#top" aria-label="Torna su">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="brand-name">Uova</span>
+    </a>
+    <a class="cta-mini" href="#ordina" data-track="top_order">Ordina</a>
+  </div>
+
+  <!-- Sticky conversion CTA -->
+  <div class="sticky-cta" id="stickyCta" aria-hidden="true">
+    <div class="sticky-cta__inner">
+      <div class="sticky-cta__text">
+        <strong>Pronto a provarle?</strong>
+        <span>Confezioni 3 / 7 / 11 — pre-ordine in 30s.</span>
+      </div>
+      <a class="sticky-cta__btn" href="#ordina" data-track="sticky_order">Ordina ora</a>
+    </div>
+  </div>
+
+  <header class="hero" id="top">
+    <div class="stage" aria-label="Hero con animazione uovo">
+      <div class="headline">
+        <h1>Uova vere. Semplici. Pulite.</h1>
+        <p>Scrolla: l’uovo si apre e ti porta dritto a ciò che conta.</p>
+      </div>
+
+      <div class="egg-wrap" id="eggWrap">
+        <div class="egg" id="wholeEgg" aria-hidden="true"></div>
+
+        <div class="shell left" id="shellLeft" aria-hidden="true"></div>
+        <div class="shell right" id="shellRight" aria-hidden="true"></div>
+
+        <div class="inside" id="inside" aria-hidden="true">
+          <div class="white"></div>
+          <div class="yolk"></div>
+        </div>
+
+        <div class="map" id="map" aria-hidden="true">
+          <svg class="arrows" viewBox="0 0 1000 560" role="img" aria-label="Frecce verso le sezioni">
+            <defs>
+              <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="rgba(243,246,251,.75)"></path>
+              </marker>
+            </defs>
+
+            <path d="M500 280 C430 210, 330 185, 230 165"
+                  stroke="rgba(243,246,251,.62)" stroke-width="2.2" fill="none" marker-end="url(#arrowHead)"/>
+            <text x="230" y="150" class="arrow-label">LA NOSTRA STORIA</text>
+
+            <path d="M500 280 C580 210, 680 185, 780 165"
+                  stroke="rgba(243,246,251,.62)" stroke-width="2.2" fill="none" marker-end="url(#arrowHead)"/>
+            <text x="690" y="150" class="arrow-label">LE NOSTRE GALLINE</text>
+
+            <path d="M500 300 C420 360, 320 395, 210 420"
+                  stroke="rgba(243,246,251,.62)" stroke-width="2.2" fill="none" marker-end="url(#arrowHead)"/>
+            <text x="190" y="445" class="arrow-label">LE NOSTRE UOVA</text>
+
+            <path d="M500 300 C600 360, 710 395, 835 420"
+                  stroke="rgba(243,246,251,.62)" stroke-width="2.2" fill="none" marker-end="url(#arrowHead)"/>
+            <text x="790" y="445" class="arrow-label">ORDINA ORA</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="cards" id="cards" aria-label="Scelte rapide">
+        <div class="card" data-target="#storia" role="button" tabindex="0" aria-label="Vai a La nostra storia" data-track="nav_story">
+          <div class="thumb thumb-story" aria-hidden="true"></div>
+          <div class="card__text">
+            <h3>La nostra storia</h3>
+            <p>Da dove veniamo, perché lo facciamo davvero.</p>
+          </div>
+          <div class="pill">Apri</div>
+        </div>
+
+        <div class="card" data-target="#galline" role="button" tabindex="0" aria-label="Vai a Le nostre galline" data-track="nav_hens">
+          <div class="thumb thumb-hens" aria-hidden="true"></div>
+          <div class="card__text">
+            <h3>Le nostre galline</h3>
+            <p>Benessere, alimentazione, spazio.</p>
+          </div>
+          <div class="pill">Scopri</div>
+        </div>
+
+        <div class="card" data-target="#uova" role="button" tabindex="0" aria-label="Vai a Le nostre uova" data-track="nav_eggs">
+          <div class="thumb thumb-eggs" aria-hidden="true"></div>
+          <div class="card__text">
+            <h3>Le nostre uova</h3>
+            <p>Qualità, freschezza, gusto.</p>
+          </div>
+          <div class="pill">Vedi</div>
+        </div>
+
+        <div class="card order" data-target="#ordina" role="button" tabindex="0" aria-label="Vai a Ordina ora" data-track="nav_order">
+          <div class="thumb thumb-order" aria-hidden="true"></div>
+          <div class="card__text">
+            <h3>ORDINA ORA</h3>
+            <p>Pre-ordine rapido — ti ricontattiamo noi.</p>
+          </div>
+          <div class="pill">Compra</div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Trust / value bullets -->
+    <section class="trust" aria-label="Perché fidarti">
+      <div class="section-head">
+        <h2>Perché fidarti</h2>
+        <p>Tre cose, senza fronzoli. Se ti convincono, ordini. Fine.</p>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-card">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.2 9.4-8 10-4.8-.6-8-5-8-10V6l8-4z" stroke="currentColor" stroke-width="1.6"/></svg>
+          </div>
+          <h3>Trasparenza</h3>
+          <p>Ti diciamo cosa mangiano e come vivono. Niente “segreti”.</p>
+        </div>
+
+        <div class="trust-card">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 6l12 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Freschezza</h3>
+          <p>Raccolta e consegna ravvicinate. Meno tempo, più gusto.</p>
+        </div>
+
+        <div class="trust-card">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-4.4 7-11a7 7 0 10-14 0c0 6.6 7 11 7 11z" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 12.1l1.5 1.6 3.1-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Controllo</h3>
+          <p>Standard chiari: pulizia, cura, routine. Semplice ma serio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="storia">
+      <div class="section-head">
+        <h2>La nostra storia</h2>
+        <p>Scrivi qui una storia corta e vera: “Perché abbiamo iniziato”.</p>
+      </div>
+      <div class="two-col">
+        <div class="panel">
+          <h3>Il perché</h3>
+          <p>Un testo umano: poche righe, zero marketing vuoto. Qualcosa che uno possa raccontare a un amico.</p>
+          <ul class="bullets">
+            <li>Territorio e metodo</li>
+            <li>Scelta delle confezioni 3 / 7 / 11</li>
+            <li>Obiettivo: qualità costante</li>
+          </ul>
+        </div>
+        <div class="panel media" aria-label="Immagine storia"></div>
+      </div>
+    </section>
+
+    <section id="galline">
+      <div class="section-head">
+        <h2>Le nostre galline</h2>
+        <p>Benessere prima del resto: spazio, dieta, routine.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>Spazio</h3>
+          <p>Ambiente arioso e pulito. Le galline non sono “numeri”.</p>
+        </div>
+        <div class="feature">
+          <h3>Alimentazione</h3>
+          <p>Ingredienti semplici e controllati. Meno stress, uovo migliore.</p>
+        </div>
+        <div class="feature">
+          <h3>Routine</h3>
+          <p>Orari e cura costanti. La qualità nasce dalla ripetizione fatta bene.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="uova">
+      <div class="section-head">
+        <h2>Le nostre uova</h2>
+        <p>Gusto e consistenza: quando lo rompi, lo capisci.</p>
+      </div>
+
+      <div class="egg-info">
+        <div class="stat">
+          <span class="stat__n">01</span>
+          <span class="stat__t">Selezione</span>
+          <span class="stat__d">Solo ciò che passa i nostri controlli interni.</span>
+        </div>
+        <div class="stat">
+          <span class="stat__n">02</span>
+          <span class="stat__t">Conservazione</span>
+          <span class="stat__d">Stoccaggio ordinato e pulito. Niente improvvisazioni.</span>
+        </div>
+        <div class="stat">
+          <span class="stat__n">03</span>
+          <span class="stat__t">Consegna</span>
+          <span class="stat__d">Confezione solida: arriva come deve arrivare.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Iconic packaging section -->
+    <section id="confezioni">
+      <div class="section-head">
+        <h2>Confezioni 3 / 7 / 11</h2>
+        <p>Numeri “strani” ma utili: per chi vive da solo, per coppie, per chi cucina spesso.</p>
+      </div>
+
+      <div class="pack-grid">
+        <article class="pack">
+          <div class="pack__badge">3</div>
+          <h3>Starter</h3>
+          <p>Provale. Tre uova = zero sprechi, massimo test.</p>
+          <a class="pack__cta" href="#ordina" data-pack="3" data-track="pack_3">Scegli 3</a>
+        </article>
+
+        <article class="pack">
+          <div class="pack__badge">7</div>
+          <h3>Settimana</h3>
+          <p>Una al giorno. Routine semplice, soddisfazione alta.</p>
+          <a class="pack__cta" href="#ordina" data-pack="7" data-track="pack_7">Scegli 7</a>
+        </article>
+
+        <article class="pack highlight">
+          <div class="pack__badge">11</div>
+          <h3>Chef Mode</h3>
+          <p>Per chi ci fa colazioni, dolci, carbonare e tutto il resto.</p>
+          <a class="pack__cta" href="#ordina" data-pack="11" data-track="pack_11">Scegli 11</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Social proof -->
+    <section id="prove">
+      <div class="section-head">
+        <h2>Prove sociali</h2>
+        <p>Metti qui nomi veri e frasi vere. Anche poche, ma credibili.</p>
+      </div>
+
+      <div class="social-grid">
+        <div class="quote">
+          <p>“Il tuorlo è più vivo, e si sente anche in padella.”</p>
+          <span>— Cliente #01</span>
+        </div>
+        <div class="quote">
+          <p>“Ho iniziato con 3. La settimana dopo ho preso 11.”</p>
+          <span>— Cliente #02</span>
+        </div>
+        <div class="quote">
+          <p>“Finalmente uova che non sanno di frigo.”</p>
+          <span>— Cliente #03</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="section-head">
+        <h2>FAQ</h2>
+        <p>Risposte secche. Togliti l’ansia prima di ordinare.</p>
+      </div>
+
+      <div class="faq">
+        <button class="faq__q" aria-expanded="false">
+          Quanto tempo ci mettete a consegnare?
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq__a" hidden>
+          Dipende dalla zona. Inserisci il pre-ordine: ti confermiamo giorno e fascia oraria.
+        </div>
+
+        <button class="faq__q" aria-expanded="false">
+          Posso scegliere solo 3/7/11?
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq__a" hidden>
+          Sì: sono pensate per ridurre sprechi e rendere la scelta immediata. Se ti serve altro, scrivilo nel messaggio.
+        </div>
+
+        <button class="faq__q" aria-expanded="false">
+          Come funziona il pre-ordine?
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq__a" hidden>
+          Compili il form in 30 secondi. Ti ricontattiamo per conferma e pagamento/consegna.
+        </div>
+      </div>
+    </section>
+
+    <!-- Order -->
+    <section id="ordina">
+      <div class="section-head">
+        <h2>Ordina ora</h2>
+        <p>Pre-ordine rapido: lasci i contatti, scegli la confezione, e ti ricontattiamo.</p>
+      </div>
+
+      <div class="order-grid">
+        <div class="order-cards" aria-label="Scelte confezione">
+          <button class="choice" type="button" data-pack="3" data-track="choice_3">
+            <span class="choice__n">3</span>
+            <span class="choice__t">Starter</span>
+            <span class="choice__d">Provale senza impegno.</span>
+          </button>
+          <button class="choice" type="button" data-pack="7" data-track="choice_7">
+            <span class="choice__n">7</span>
+            <span class="choice__t">Settimana</span>
+            <span class="choice__d">Una al giorno.</span>
+          </button>
+          <button class="choice active" type="button" data-pack="11" data-track="choice_11">
+            <span class="choice__n">11</span>
+            <span class="choice__t">Chef Mode</span>
+            <span class="choice__d">Per chi cucina tanto.</span>
+          </button>
+
+          <div class="micro-note">
+            <span class="glow" aria-hidden="true"></span>
+            <p><strong>Tip:</strong> parti da 3 se sei curioso. Se ti piace, passi a 7/11.</p>
+          </div>
+        </div>
+
+        <form class="form" id="preorderForm" autocomplete="on">
+          <input type="hidden" name="pack" id="packInput" value="11" />
+
+          <label>
+            Nome
+            <input name="name" required placeholder="Il tuo nome" />
+          </label>
+
+          <label>
+            Email o telefono
+            <input name="contact" required placeholder="email@esempio.it oppure +39..." />
+          </label>
+
+          <div class="row">
+            <label>
+              Quantità (confezioni)
+              <input name="qty" type="number" min="1" value="1" required />
+            </label>
+
+            <label>
+              Confezione
+              <select name="packSelect" id="packSelect">
+                <option value="3">3</option>
+                <option value="7">7</option>
+                <option value="11" selected>11</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Note (facoltative)
+            <textarea name="note" rows="4" placeholder="Zona, orario preferito, richieste..."></textarea>
+          </label>
+
+          <button class="submit" type="submit" data-track="form_submit">Invia pre-ordine</button>
+          <p class="fineprint">Nessuno spam. Ti ricontattiamo solo per confermare ordine e consegna.</p>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Uova. Tutti i diritti riservati.</p>
+    </footer>
+  </main>
+
+  <!-- Confirmation modal -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-label="Conferma pre-ordine">
+    <div class="modal__backdrop" data-close="true"></div>
+    <div class="modal__panel" role="document">
+      <div class="modal__icon" aria-hidden="true">✓</div>
+      <h3>Pre-ordine inviato</h3>
+      <p id="modalText">Perfetto. Ti ricontatteremo a breve per conferma.</p>
+      <div class="modal__actions">
+        <a class="modal__secondary" id="mailtoLink" href="#">Invia anche via email</a>
+        <button class="modal__primary" type="button" data-close="true">Ok</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
