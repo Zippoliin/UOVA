@@ -1,0 +1,16 @@
+{
+  "name": "Life RPG",
+  "short_name": "Life RPG",
+  "description": "Gamifica la tua vita reale. Costruisci abitudini, guadagna XP, scala i livelli.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080810",
+  "theme_color": "#080810",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "screenshots": [],
+  "categories": ["productivity", "lifestyle"]
+}
